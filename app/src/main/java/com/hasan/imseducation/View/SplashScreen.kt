@@ -7,9 +7,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -19,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -51,12 +55,19 @@ fun SplashScreen(navController: NavController) {
         Row (horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Platformamizga xush kelibsiz", fontSize = 24.sp)
         }
-        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        //    verticalArrangement = Arrangement.SpaceBetween
+        ) {
+          //  Spacer(modifier = Modifier.height(0.dp))
             Image(modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp), painter = painterResource(R.drawable.ims_img), contentDescription ="Splash Img" )
+                .fillMaxWidth()
+                .padding(10.dp), contentScale = ContentScale.Fit, painter = painterResource(R.drawable.ims_img), contentDescription ="Splash Img" )
+
             Button(onClick = { /*TODO*/ }, shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = ButtonColor),modifier = Modifier.padding(10.dp)) {
+          colors = ButtonDefaults.buttonColors(containerColor = ButtonColor),modifier = Modifier
+                    .padding(10.dp)
+                    .width(180.dp)) {
                 Text(text = "Keyingisi")
              
          }
