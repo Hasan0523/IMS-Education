@@ -1,4 +1,4 @@
-package com.hasan.imseducation.View
+package com.hasan.imseducation.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
