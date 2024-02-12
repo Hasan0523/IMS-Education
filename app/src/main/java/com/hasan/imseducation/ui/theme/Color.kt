@@ -6,6 +6,8 @@ val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)
 val ButtonColor = Color(0xFF44AFFC)
+val blue = Color(0xFF96D3FF)
+val gray = Color(0xFF00FF2A)
 val Black= Color(0xFF000000)
 val background= Color(0xFFFFFFFF)
 

@@ -28,7 +28,8 @@ fun NavGraph (){
             RegistScreen(navController)
         }
        composable(route=Screens.Login.route){
-           LoginScreen(navController)
-       }
+           LoginScreen(navController)}
+
+
     }
 }

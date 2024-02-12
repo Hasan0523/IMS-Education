@@ -1,6 +1,7 @@
 package com.hasan.imseducation.api
 
 import android.content.Context
+import android.os.Message
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.Firebase
@@ -9,8 +10,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
-import com.said.chat.model.Message
-import com.said.chat.model.User
+
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -19,7 +19,7 @@ class Firebase private constructor() {
 
         private val users = FirebaseDatabase.getInstance().reference.child("users")
 
-        fun register(user: User, context: Context, callback: (Boolean) -> Unit) {
+        fun register(user: com.hasan.imseducation.model.User, context: Context, callback: (Boolean) -> Unit) {
             val key = users.push().key.toString()
             user.key = key
             users.child(key).setValue(user)
@@ -32,7 +32,7 @@ class Firebase private constructor() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val u = snapshot.children
                     u.forEach {
-                        val user = it.getValue(User::class.java)!!
+                        val user = it.getValue(com.google.firebase.firestore.auth.User::class.java)!!
                         if (user.username == username.trim().lowercase()) {
                             callback(false)
                         }
@@ -51,7 +51,7 @@ class Firebase private constructor() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val users = snapshot.children
                     users.forEach {
-                        val user = it.getValue(User::class.java)!!
+                        val user = it.getValue(com.google.firebase.firestore.auth.User::class.java)!!
                         if (user.username == username) {
                             if (user.password!! == password) callback(it.key!!)
                             else callback(null)
@@ -73,7 +73,7 @@ class Firebase private constructor() {
             val currentUser = SharedHelper.getInstance(context).getKey()!!
 
             val key = Firebase.database.reference.push().key.toString()
-            val message = Message(to, currentUser, text, currentDate, key)
+            val message = android.os.Message()
             users.child(to).child("messages").child(key).setValue(message)
             users.child(currentUser).child("messages").child(key).setValue(message)
         }
@@ -81,16 +81,16 @@ class Firebase private constructor() {
         fun getMessages(
             context: Context,
             userKey: String,
-            callback: (List<Message>) -> Unit
+            callback: (List<android.os.Message>) -> Unit
         ) {
             val key = SharedHelper.getInstance(context).getKey()!!
             users.child(key).child("messages")
                 .addValueEventListener(object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         val m = snapshot.children
-                        val messages = mutableListOf<Message>()
+                        val messages = mutableListOf<android.os.Message>()
                         m.forEach {
-                            val message = it.getValue(Message::class.java)!!
+                            val message = it.getValue(android.os.Message::class.java)!!
                             if (message.from == userKey || message.to == userKey) messages.add(
                                 message
                             )
@@ -107,13 +107,13 @@ class Firebase private constructor() {
         }
 
 
-        fun getAllUsers(context: Context, searchKey: String, callback: (List<User>) -> Unit) {
+        fun getAllUsers(context: Context, searchKey: String, callback: (List<com.hasan.imseducation.model.User>) -> Unit) {
             users.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val u = snapshot.children
-                    val users = mutableListOf<User>()
+                    val users = mutableListOf<com.hasan.imseducation.model.User>()
                     u.forEach {
-                        val user = it.getValue(User::class.java)!!
+                        val user = it.getValue(com.google.firebase.firestore.auth.User::class.java)!!
                         if (user.key != SharedHelper.getInstance(context).getKey()) {
                             if (searchKey.isEmpty()) users.add(user)
                             else if ((user.firstName + user.lastName + user.username).contains(
@@ -153,10 +153,10 @@ class Firebase private constructor() {
             })
         }
 
-        fun getUser(key: String, callback: (User) -> Unit) {
+        fun getUser(key: String, callback: (com.hasan.imseducation.model.User) -> Unit) {
             users.child(key).addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val u = snapshot.getValue(User::class.java)
+                    val u = snapshot.getValue(com.google.firebase.firestore.auth.User::class.java)
                     if (u != null) callback(u)
                 }
 
@@ -169,19 +169,19 @@ class Firebase private constructor() {
         fun getChats(
             searchKey: String,
             context: Context,
-            callback: (contacts: List<User>) -> Unit
+            callback: (contacts: List<com.hasan.imseducation.model.User>) -> Unit
         ) {
             val currentUserKey = SharedHelper.getInstance(context).getKey()
             val mes = users.child(currentUserKey).child("messages")
             mes.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val keys = mutableListOf<String>()
-                    val users = mutableListOf<User>()
+                    val users = mutableListOf<com.hasan.imseducation.model.User>()
 
                     val u = snapshot.children
-                    val messages = mutableListOf<Message>()
+                    val messages = mutableListOf<android.os.Message>()
                     u.forEach {
-                        val message = it.getValue(Message::class.java)!!
+                        val message = it.getValue(android.os.Message::class.java)!!
                         messages.add(message)
                     }
                     if (messages.isEmpty()) callback(listOf())
