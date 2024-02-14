@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.hasan.imseducation.R
 import com.hasan.imseducation.ui.theme.ButtonColor
+import com.hasan.imseducation.ui.theme.background
 
 @Preview
 @Composable
@@ -37,29 +39,14 @@ fun PreviewSplash() {
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    Column (modifier = Modifier
-        .fillMaxSize()
-        .background(Color.White)){
-        Row (horizontalArrangement = Arrangement.Center, modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 25.dp)){
-            Text(text = "IMS Education", fontSize = 26.sp )
-        }
-        Row (horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Platformamizga xush kelibsiz", fontSize = 24.sp)
-        }
-        Column(modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        //    verticalArrangement = Arrangement.SpaceBetween
-        ) {
-          //  Spacer(modifier = Modifier.height(0.dp))
-            Image(modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp), contentScale = ContentScale.Fit, painter = painterResource(R.drawable.ims_img), contentDescription ="Splash Img" )
 
-        }
-
+    Column(modifier=Modifier.fillMaxSize().background(background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,)
+    {
+        Text(text = "Hello" , fontSize = 30.sp,  textAlign = TextAlign.Center )
 
     }
 
-}
+    }
+
